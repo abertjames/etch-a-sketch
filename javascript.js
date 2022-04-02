@@ -11,12 +11,22 @@ function genBoard () {
 }
 genBoard()
 
-function handleClick() {
+function scaleGrid(n) {
   board.innerHTML = '';
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < n**2; i++) {
     board.innerHTML +='<div class="square"></div>';
   }
-  board.style.setProperty("--grid-size", 3);
+  board.style.setProperty("--grid-size", n);
+}
+
+let slider = document.getElementById("myRange");
+let output = document.getElementById("para");
+output.textContent = slider.value;
+
+slider.oninput = function() {
+    output.textContent = slider.value;
+    let n = slider.value;
+    scaleGrid(n)
 }
 
 // var n=4;//take grid column value as you want
