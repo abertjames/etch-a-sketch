@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style id="compiled-css" type="text/css">
+      .board {
+  --grid-size: 4;
+  display: grid;
+  width: 25rem;
+  height: 25rem;
+  grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+}
+.square {
+  border: 1px solid black;
+  display: grid;
+  place-items: center;
+  font-size: 40px;
+}
+.my-button {
+  padding: 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+  </style>
+
+  <script src="javascript.js" defer ></script>
+
+</head>
+
+    <body>
+        <div class="board">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div>
+
+        <button class="my-button">
+            Change to 3x3
+        </button>
+
+    </body>
+</html>
