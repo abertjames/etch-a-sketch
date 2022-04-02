@@ -1,32 +1,33 @@
-const button = document.querySelector('.my-button');
+// const button = document.querySelector('.my-button');
 const board = document.querySelector(".board");
-button.addEventListener("click", handleClick);
+// button.addEventListener("click", handleClick);
 
-function genBoard () {
+function genBoard (n) {
     board.innerHTML='';
-    for (let i = 0; i<16**2; i++) {
+    for (let i = 0; i<n**2; i++) {
         board.innerHTML +='<div class="square"></div>';
     }
-    board.style.setProperty("--grid-size", 16);
+    board.style.setProperty("--grid-size", n);
 }
 genBoard()
 
-function scaleGrid(n) {
-  board.innerHTML = '';
-  for (let i = 0; i < n**2; i++) {
-    board.innerHTML +='<div class="square"></div>';
-  }
-  board.style.setProperty("--grid-size", n);
-}
+// function handleClick(n) {
+//   board.innerHTML = '';
+//   for (let i = 0; i < n**2; i++) {
+//     board.innerHTML +='<div class="square"></div>';
+//   }
+//   board.style.setProperty("--grid-size", n);
+// }
 
 let slider = document.getElementById("myRange");
 let output = document.getElementById("para");
 output.textContent = slider.value;
 
+
 slider.oninput = function() {
     output.textContent = slider.value;
     let n = slider.value;
-    scaleGrid(n)
+    genBoard(n)
 }
 
 // var n=4;//take grid column value as you want
