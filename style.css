@@ -15,10 +15,15 @@
     flex: 1 1 0;
 } */ 
 
+.innerContainer {
+    display: flex;
+    flex: auto;
+}
+
 .row {
     display: flex;
     flex: auto;
-    flex-direction: row;
+    /* flex-direction: column; */
 }
 
 .cell {

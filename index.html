@@ -20,37 +20,15 @@
 
 
         <div class="slidecontainer">
-            <input type="range" min="1" max="8" value="2" class="slider" id="myRange">
+            <input id="myRange" class="slider" type="range" min="1" max="100" value="16">
             <p>Value: <span id="para"></span></p>
         </div>
 
+
+        <button class="my-button">
+            reset        
+        </button>
+           
+
     </body>
 </html>
-
-
-<!-- 
-<html><head> 
-    <script language="javascript"> 
-      function genDivs(v){ 
-        var e = document.body; // whatever you want to append the rows to: 
-        for(var i = 0; i < v; i++){ 
-          var row = document.createElement("div"); 
-          row.className = "row"; 
-          for(var x = 1; x <= v; x++){ 
-              var cell = document.createElement("div"); 
-              cell.className = "gridsquare"; 
-              cell.innerText = (i * v) + x;
-              row.appendChild(cell); 
-          } 
-          e.appendChild(row); 
-        } 
-        document.getElementById("code").innerText = e.innerHTML;
-  
-      }
-    </script> 
-  </head> 
-  <body> 
-      <input type="button" onclick="genDivs(6)" value="click me"> 
-      <code id="code"></code>
-  </body> 
-  </html>  -->
