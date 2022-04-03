@@ -1,44 +1,28 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style id="compiled-css" type="text/css">
-      .board {
-  --grid-size: 4;
-  display: grid;
-  width: 25rem;
-  height: 25rem;
-  grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
-}
-.square {
-  border: 1px solid black;
-  display: grid;
-  place-items: center;
-  font-size: 40px;
-}
-.my-button {
-  padding: 1rem;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-  </style>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etch-A-Sketch</title>
+
+  <link rel="stylesheet" href="style.css">
 
   <script src="javascript.js" defer ></script>
 
 </head>
 
     <body>
-        <div class="board">
-        </div>
+        <div id = gridContainer></div>
 
-        <!-- <button class="my-button">
-            Change to 3x3
-        </button> -->
 
         <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="16" class="slider" id="myRange">
+            <input type="range" min="1" max="8" value="2" class="slider" id="myRange">
             <p>Value: <span id="para"></span></p>
-          </div>
+        </div>
 
     </body>
 </html>
