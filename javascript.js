@@ -10,10 +10,17 @@ function genGrid (n) {
 
         for (let j = 0; j<n; j++ ) {
             const div = document.createElement('div');
+            div.setAttribute('id', `cell-0${i}${j}`);   
             div.classList.add('cell');
             div.addEventListener("mousedown", mouseDown);
             div.addEventListener("mouseup", mouseUp);
-            div.addEventListener("mouseover",paint);
+
+            div.addEventListener("mouseover", function (e) {
+                let nodeID  = e.path[0].id;
+                paint(nodeID);
+
+            } );
+
             rowContainer.appendChild(div);
         }
         gridContainer.appendChild(rowContainer);
@@ -53,10 +60,11 @@ function mouseUp () {
     downStatus = false;
 }
 
-function paint () {
+function paint (nodeID) {
     if (downStatus == true) {
-        
-        const div = document.querySelector(".cell");
+
+        const div = document.getElementById(`${nodeID}`);
+
         div.classList.add("black-paint")
     }
 }
