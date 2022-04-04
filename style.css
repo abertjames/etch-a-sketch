@@ -8,13 +8,6 @@
     flex-direction: column;
 }
 
-/* #gridContainer > * {
-    /* display: flex;
-    flex-wrap: wrap; */
-    /* height:auto;
-    flex: 1 1 0;
-} */ 
-
 .innerContainer {
     display: flex;
     flex: auto;
@@ -35,20 +28,6 @@
     flex: auto; */
 }
 
-
-
-
-.board {
---grid-size: 4;
-display: grid;
-width: 25rem;
-height: 25rem;
-grid-template: repeat(var(--grid-size), 1fr) / repeat(var(--grid-size), 1fr);
+.black-paint {
+    background-color: black;
 }
-.square {
-border: 1px solid black;
-display: grid;
-place-items: center;
-font-size: 40px;
-}
-

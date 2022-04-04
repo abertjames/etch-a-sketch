@@ -11,14 +11,14 @@ function genGrid (n) {
         for (let j = 0; j<n; j++ ) {
             const div = document.createElement('div');
             div.classList.add('cell');
+            div.addEventListener("mousedown", mouseDown);
+            div.addEventListener("mouseup", mouseUp);
+            div.addEventListener("mouseover",paint);
             rowContainer.appendChild(div);
         }
         gridContainer.appendChild(rowContainer);
     }
-
 }
-
-
 
 let slider = document.getElementById("myRange");
 let output = document.getElementById("para");
@@ -34,10 +34,29 @@ slider.oninput = function() {
 
 
 const button = document.querySelector('.my-button');
-button.addEventListener("click", getInput);
+button.addEventListener("click", reset);
 
 
-function getInput (){
-    let n = prompt("How many?");
+function reset (){
+    n = 16;
+    slider.value = n;
+    output.textContent = n;
     genGrid(n)
+}
+
+let downStatus = false;
+
+function mouseDown () {
+    downStatus = true;
+}
+function mouseUp () {
+    downStatus = false;
+}
+
+function paint () {
+    if (downStatus == true) {
+        
+        const div = document.querySelector(".cell");
+        div.classList.add("black-paint")
+    }
 }
