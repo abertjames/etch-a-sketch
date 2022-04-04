@@ -13,15 +13,19 @@ function genGrid (n) {
             const div = document.createElement('div');
             div.setAttribute('id', `cell-${i}-${j}`);   
             div.classList.add('cell');
-            div.addEventListener("mousedown", mouseDown);
+            div.addEventListener("mousedown", function(e) {
+                mouseDown();
+                let nodeID = e.path[0].id;
+                paint(nodeID);
+            });
             div.addEventListener("mouseup", mouseUp);
 
-            div.addEventListener("click", function (e){
-                mouseDown();
-                let nodeID  = e.path[0].id;
-                paint(nodeID);
-                mouseUp();
-            });
+            // div.addEventListener("click", function (e){
+            //     mouseDown();
+            //     let nodeID  = e.path[0].id;
+            //     paint(nodeID);
+            //     mouseUp();
+            // });
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
                 paint(nodeID);
