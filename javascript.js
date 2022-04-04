@@ -19,16 +19,11 @@ function genGrid (n) {
                 paint(nodeID);
             });
             div.addEventListener("mouseup", mouseUp);
-
-            // div.addEventListener("click", function (e){
-            //     mouseDown();
-            //     let nodeID  = e.path[0].id;
-            //     paint(nodeID);
-            //     mouseUp();
-            // });
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
-                paint(nodeID);
+                if (downStatus == true) {
+                    paint(nodeID);
+                }
             });
 
             rowContainer.appendChild(div);
@@ -69,8 +64,6 @@ function mouseUp () {
 }
 
 function paint (nodeID) {
-    if (downStatus == true) {
-        const div = document.getElementById(`${nodeID}`);
-        div.classList.add("black-paint")
-    }
+    const div = document.getElementById(`${nodeID}`);
+    div.classList.add("black-paint")
 }
