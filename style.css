@@ -1,11 +1,10 @@
 #gridContainer {
     display: flex;
-    /* flex-wrap: wrap; */
     width: 600px;
     height: 600px;
+    flex-direction: column;
     border: 1px dotted red;
     padding: 10px;
-    flex-direction: column;
 }
 
 .innerContainer {
@@ -16,16 +15,12 @@
 .row {
     display: flex;
     flex: auto;
-    /* flex-direction: column; */
 }
 
 .cell {
     border: 1px solid black;
     display: flex;
     flex: auto;
-    /* display: flex;
-    flex-wrap: wrap;
-    flex: auto; */
 }
 
 .black-paint {

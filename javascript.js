@@ -1,6 +1,7 @@
 const gridContainer = document.querySelector("#gridContainer");
 
 function genGrid (n) {
+
     gridContainer.innerHTML = ""; 
 
     for (let i = 0; i<n; i++) {
@@ -10,16 +11,21 @@ function genGrid (n) {
 
         for (let j = 0; j<n; j++ ) {
             const div = document.createElement('div');
-            div.setAttribute('id', `cell-0${i}${j}`);   
+            div.setAttribute('id', `cell-${i}-${j}`);   
             div.classList.add('cell');
             div.addEventListener("mousedown", mouseDown);
             div.addEventListener("mouseup", mouseUp);
 
+            div.addEventListener("click", function (e){
+                mouseDown();
+                let nodeID  = e.path[0].id;
+                paint(nodeID);
+                mouseUp();
+            });
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
                 paint(nodeID);
-
-            } );
+            });
 
             rowContainer.appendChild(div);
         }
@@ -39,10 +45,8 @@ slider.oninput = function() {
     genGrid(n)
 }
 
-
 const button = document.querySelector('.my-button');
 button.addEventListener("click", reset);
-
 
 function reset (){
     n = 16;
@@ -62,9 +66,7 @@ function mouseUp () {
 
 function paint (nodeID) {
     if (downStatus == true) {
-
         const div = document.getElementById(`${nodeID}`);
-
         div.classList.add("black-paint")
     }
 }
