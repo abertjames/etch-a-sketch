@@ -27,14 +27,6 @@ function genGrid (n) {
                 paint(nodeID);
                 getProximal(e);
 
-                // console.log(e);
-                // console.log(e.target.parentElement.children)
-                // console.log(e.path[0].id)
-                // console.log(e.target)
-                // console.log(Array.from(e.target.parentElement.children).indexOf(e.target))
-                // let cell_list = document.querySelectorAll('.cell');
-                // console.log(cell_list);
-
             });
             div.addEventListener("mouseup", mouseUp);
             div.addEventListener("mouseover", function (e) {
@@ -66,14 +58,30 @@ slider.oninput = () => {
     genGrid(n)
 }
 
-const button = document.querySelector('.my-button');
-button.addEventListener("click", reset);
-
+const resetButton = document.querySelector('.reset');
+resetButton.addEventListener("click", reset);
 function reset (){
     n = 16;
     slider.value = n;
     output.textContent = n;
     genGrid(n)
+}
+
+//fill status button toggle
+const fillButton = document.querySelector('.fill-in');
+fillButton.addEventListener("click", fill);
+let fillStatus = false;
+function fill () {
+    if (fillStatus == false){
+        //toggles fill on an paint off 
+        fillStatus = true;
+        paintStatus = false;
+
+    } else if (fillStatus == true) {
+        //toggles fill off and paint on
+        fillStatus = false;
+        paintStatus = true;
+    }
 }
 
 // toggle status of mousedown so that the user can only draw while holding click
@@ -87,9 +95,14 @@ function mouseUp () {
 
 //this function checks the status of the user input settings and calls the appropriate function
 function eventHandler () {
-    
+    if (fillStatus == true) {
+        getProximal(e);
+    } else if (paintStatus == true) {
+        paint(nodeID)
+    }
 }
 
+let paintStatus = true;
 function paint (nodeID) {
     const div = document.getElementById(`${nodeID}`);
     div.classList.add("black-paint")
@@ -122,16 +135,19 @@ let cellsToColor = [];
 function checkProximal (toCheck,toColor) {
     
     proximalCells = toCheck;
-    cellsToColor = toColor;
+    cellsToColor = [];
 
     //this checks to see if the user clicked on a node which already has a class on it 
     //ie an edge or already colored cells.
     //this would not work for the fill function because it is supposed to fill in blank space.
     //if it fails this test it will not produce a cellsToColor array. however, if it passes
     //this check we would want to include it in the list to color
-    if (proximalCells[0].classList.length != 1){ 
-        return
-    }
+
+    // need to turn off the ability to color on the mouse down event or else this will always fail
+
+    // if (proximalCells[0].classList.length != 1){ 
+    //     return
+    // }
 
     for (i=0 ; i < proximalCells.length ; i++) {
         
@@ -144,12 +160,12 @@ function checkProximal (toCheck,toColor) {
             continue
 
         //check to see if cell is already logged in cellsToColor
-        } else if (cellsToColor.includes(proximalCells[i])) {
+        } else if (cellsToColor.includes(proximalCells[i]) == true ) {
             continue
 
         //adds all cells that pass the checks to the list to be colored
         } else {
-            cellsToColor = cellsToColor.push(proximalCells[i]);
+            cellsToColor.push(proximalCells[i]);
         }
 
     }
