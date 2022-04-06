@@ -19,12 +19,15 @@ function genGrid (n) {
             div.classList.add('cell');
             div.addEventListener("mousedown", function(e) {
 
-                mouseDown();
+                
 
                 //get's the specific ID of the cell which was clicked over
                 let nodeID = e.path[0].id;
-                getProximal(e);
-                paint(nodeID);
+                eventHandler(e,nodeID)
+
+                // mouseDown();
+                // getProximal(e);
+                // paint(nodeID);
                 
 
             });
@@ -94,10 +97,12 @@ function mouseUp () {
 }
 
 //this function checks the status of the user input settings and calls the appropriate function
-function eventHandler () {
+function eventHandler (e, nodeID) {
     if (fillStatus == true) {
         getProximal(e);
+        paint(nodeID);
     } else if (paintStatus == true) {
+        mouseDown()
         paint(nodeID)
     }
 }
@@ -122,9 +127,8 @@ function getProximal (e) {
     let nodeDown = document.getElementById(`${nodeID_i}-${+nodeID_j-1}`);
     let nodeRight = document.getElementById(`${+nodeID_i+1}-${nodeID_j}`);
     let nodeLeft = document.getElementById(`${+nodeID_i-1}-${nodeID_j}`);
-    let node = document.getElementById(nodeID);
 
-    proximalCells = [node, nodeUp, nodeDown, nodeRight, nodeLeft]
+    proximalCells = [nodeUp, nodeDown, nodeRight, nodeLeft]
     // return proximalCells
     checkProximal(proximalCells,cellsToColor);
 }
@@ -132,19 +136,13 @@ function getProximal (e) {
 //this function will check whether the cells in quadArray are already colored, 
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
-function checkProximal (toCheck,toColor) {
+function checkProximal (proximalCells,cellsToColor) {
     
-    proximalCells = toCheck;
     cellsToColor = [];
 
     //this checks to see if the user clicked on a node which already has a class on it 
     //ie an edge or already colored cells.
-    //this would not work for the fill function because it is supposed to fill in blank space.
-    //if it fails this test it will not produce a cellsToColor array. however, if it passes
-    //this check we would want to include it in the list to color
-
-    // need to turn off the ability to color on the mouse down event or else this will always fail
-
+    
     // if (proximalCells[0].classList.length != 1){ 
     //     return
     // }
