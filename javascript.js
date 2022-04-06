@@ -55,15 +55,162 @@ slider.oninput = () => {
     genGrid(n)
 }
 
+//resets page back to initial conditions
 const resetButton = document.querySelector('.reset');
 resetButton.addEventListener("click", reset);
 function reset (){
-    fillStatus = false;
+
     paintStatus = true;
+    fillStatus = false;
+    rainbowStatus = false;
+    eraserStatus = false;
+    streamStatus = false;
+    shaderStatus = false;
+    lightenerStatus = false;
+
     n = 16;
     slider.value = n;
     output.textContent = n;
     genGrid(n)
+}
+
+//rainbow toggle
+let rainbowStatus = false;
+const rainbow = document.querySelector('.rainbow');
+rainbow.addEventListener("click", drawRainbow);
+function drawRainbow (){
+    if (raindbowStatus == false) {
+        rainbowStatus = true;
+
+        paintStatus = false;
+        fillStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    } else if (rainbowStatus == true) {
+        rainbowStatus = false;
+
+        paintStatus = true;
+        fillStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    }
+}
+
+//eraser toggle
+let eraserStatus = false;
+const eraser = document.querySelector('.eraser');
+eraser.addEventListener("click", erase);
+function erase (){
+
+    if (eraserStatus == false) {
+        eraserStatus = true;
+
+        paintStatus = false;
+        fillStatus = false;
+        rainbowStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    } else if (eraserStatus == true) {
+        eraserStatus = false;
+
+        paintStatus = true;
+        fillStatus = false;
+        rainbowStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    }
+}
+
+//open color pallet and allow for color choice
+const colorPallet = document.querySelector('.color-pallet');
+colorPallet.addEventListener("click", openColorPallet);
+function openColorPallet (){
+   
+}
+
+//stream toggle
+let streamStatus = false;
+const stream = document.querySelector('.stream');
+stream.addEventListener("click", drawStream);
+function drawStream (){
+    if (streamStatus == false) {
+        streamStatus = true;
+
+        paintStatus = false;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+     
+    } else if (streamStatus == true) {
+        streamStatus = false;
+
+        paintStatus = true;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    }
+}
+
+//shader toggle
+let shaderStatus = false;
+const shader = document.querySelector('.shader');
+shader.addEventListener("click", shade);
+function shade (){
+    if (shaderStatus == false) {
+        shaderStatus = true;
+
+        paintStatus = false;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        lightenerStatus = false;
+    } else if (shaderStatus == true) {
+        shaderStatus = false;
+
+        paintStatus = true;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        lightenerStatus = false;
+    }
+}
+
+//lightener toggle
+let lightenerStatus = false;
+const lightener = document.querySelector('.lightener');
+lightener.addEventListener("click", lighten);
+function lighten (){
+    if (lightenerStatus == false) {
+        lightenerStatus = true;
+
+        paintStatus = false;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+    } else if (lightenerStatus == true) {
+        lightenerStatus = false;
+
+        paintStatus = true;
+        fillStatus = false;
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+    }
 }
 
 //fill status button toggle
@@ -72,14 +219,22 @@ fillButton.addEventListener("click", fill);
 let fillStatus = false;
 function fill () {
     if (fillStatus == false){
-        //toggles fill on an paint off 
         fillStatus = true;
         paintStatus = false;
-
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
+    
     } else if (fillStatus == true) {
-        //toggles fill off and paint on
         fillStatus = false;
         paintStatus = true;
+        rainbowStatus = false;
+        eraserStatus = false;
+        streamStatus = false;
+        shaderStatus = false;
+        lightenerStatus = false;
     }
 }
 
@@ -124,14 +279,11 @@ function getProximal (newCells) {
     //resets proximalCells for each run
     proximalCells = [];
 
-    let nodeID_i;
-    let nodeID_j;
-
     for (i=0; i<newCells.length; i++) {
 
         //find i and j components of each cell id
-        nodeID_i = newCells[i].slice(0,newCells[i].indexOf('-'));
-        nodeID_j = newCells[i].slice(newCells[i].indexOf('-')+1);
+        let nodeID_i = newCells[i].slice(0,newCells[i].indexOf('-'));
+        let nodeID_j = newCells[i].slice(newCells[i].indexOf('-')+1);
 
         //find the cells around newCells[i]
         let nodeUp = document.getElementById(`${nodeID_i}-${+nodeID_j+1}`);
@@ -149,7 +301,7 @@ function getProximal (newCells) {
 }
 
 
-//this function will check whether the cells in quadArray are already colored, 
+//this function will check whether the cells in proximalCells are already colored, 
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
 function checkProximal (proximalCells,cellsToColor) {
@@ -189,7 +341,12 @@ function checkProximal (proximalCells,cellsToColor) {
 
 function fillCells(cellsToColor) {
     cellsToColor.forEach(element => {
-
         element.classList.add('black-paint');
     });
 }
+
+//generates a random color for rainbow mode 
+function randomColor() {
+    let color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+  }
