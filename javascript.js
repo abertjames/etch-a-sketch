@@ -99,8 +99,14 @@ function mouseUp () {
 //this function checks the status of the user input settings and calls the appropriate function
 function eventHandler (e, nodeID) {
     if (fillStatus == true) {
-        getProximal(e);
-        paint(nodeID);
+        if (document.getElementById(nodeID).classList.length != 1) {
+            return
+        } else {
+            getProximal(e);
+            paint(nodeID);
+        }
+    
+
     } else if (paintStatus == true) {
         mouseDown()
         paint(nodeID)
@@ -136,7 +142,7 @@ function getProximal (e) {
 //this function will check whether the cells in quadArray are already colored, 
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
-function checkProximal (proximalCells,cellsToColor) {
+function checkProximal (proximalCells,cellsToColor,nodeID) {
     
     cellsToColor = [];
 
@@ -144,6 +150,10 @@ function checkProximal (proximalCells,cellsToColor) {
     //ie an edge or already colored cells.
     
     // if (proximalCells[0].classList.length != 1){ 
+    //     return
+    // }
+
+    // if (document.getElementById(nodeID).classList.length != 1) {
     //     return
     // }
 
