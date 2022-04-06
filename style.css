@@ -26,3 +26,11 @@
 .black-paint {
     background-color: black;
 }
+
+.on {
+    background-color: blue;
+}
+
+.off {
+    background-color: white;
+}

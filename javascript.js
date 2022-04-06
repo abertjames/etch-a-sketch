@@ -79,7 +79,7 @@ let rainbowStatus = false;
 const rainbow = document.querySelector('.rainbow');
 rainbow.addEventListener("click", drawRainbow);
 function drawRainbow (){
-    if (raindbowStatus == false) {
+    if (rainbowStatus == false) {
         rainbowStatus = true;
 
         paintStatus = false;
@@ -88,7 +88,7 @@ function drawRainbow (){
         streamStatus = false;
         shaderStatus = false;
         lightenerStatus = false;
-    } else if (rainbowStatus == true) {
+    } else if (rainowStatus == true) {
         rainbowStatus = false;
 
         paintStatus = true;
@@ -237,6 +237,76 @@ function fill () {
         lightenerStatus = false;
     }
 }
+
+let testStatus = false;
+const test = document.querySelector('.test');
+test.addEventListener("click", function(e){
+    console.log(e)
+    buttonHandler(e)
+});
+
+let buttonList=[];
+buttonList = Array.from(document.querySelectorAll("button"))
+function buttonHandler (e) {
+
+    e.currentTarget.classList.add("on")
+
+    // let unPressed = buttonList.slice(buttonList.indexOf(e.currentTarget))
+    // console.log(e)
+    // console.log(e.currentTarget)
+    // console.log(e.currentTarget.classList)
+
+
+
+    // if (e.currentTarget.classList.contains("on")) {
+    //     e.currentTarget.classList.remove("on")
+    //     e.currentTarget.classList.add('off')
+    // } else if (e.currentTarget.className == "off") {
+    //     e.currentTarget.classList.remove("off")
+    //     e.currentTarget.classList.add('on')
+    // }
+    
+    // unPressed.forEach(element => {
+    //     if (element.classList.includes("on")){
+    //         element.classList.remove("on")
+    //         element.classList.add('off')
+    //     } 
+    // })
+    
+}
+
+function buttonCaller (e) {
+    //checks the status of the clicked button just before being clicked
+    let currentStatus;
+    if (e.currentTarget.classList.contains("off")){
+        currentStatus = true
+    } else if (e.currentTarget.classList.contains("on")){
+        currentStatus = false
+    }
+
+    if (rainbowStatus == true) {
+        drawRainbow()
+    } else if (eraserStatus == true) {
+        erase()
+    } else if (streamStatus == true) {
+        drawStream()
+    } else if (shaderStatus) {
+        shade()
+    } else if (lightenerStatus == true) {
+        lighten()
+    } else if (fillStatus == true) {
+        fill()
+    } else if (testStatus == true) {
+        test()
+    }
+
+    if (currentStatus == true) {
+        e.currentTarget.classList.remove("on")
+        e.currentTarget.classList.add("off")
+        
+    }
+}
+
 
 // toggle status of mousedown so that the user can only draw while holding click
 let downStatus = false;
