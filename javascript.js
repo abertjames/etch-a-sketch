@@ -58,15 +58,10 @@ slider.oninput = () => {
 //resets page back to initial conditions
 const resetButton = document.querySelector('#reset');
 resetButton.addEventListener("click", reset);
+resetButton.className = "off";
 function reset (){
 
-    paintStatus = true;
-    fillStatus = false;
-    rainbowStatus = false;
-    eraserStatus = false;
-    streamStatus = false;
-    shaderStatus = false;
-    lightenerStatus = false;
+    resetButtons()
 
     n = 16;
     slider.value = n;
@@ -76,16 +71,16 @@ function reset (){
 
 //rainbow toggle
 let rainbowStatus = false;
-const rainbow = document.querySelector('#rainbow');
-rainbow.addEventListener("click", drawRainbow);
+const rainbowButton = document.querySelector('#rainbow');
+rainbowButton.addEventListener("click", drawRainbow);
+rainbowButton.className = "off";
 function drawRainbow () {
     if (rainbowStatus == false){
 
         resetButtons()
 
         rainbowStatus = true;
-        rainbow.classList.remove("off");
-        rainbow.classList.add("on");
+        rainbowButton.className = "on";
         paintStatus = false;
         
     
@@ -96,16 +91,16 @@ function drawRainbow () {
 
 //eraser toggle
 let eraserStatus = false;
-const eraser = document.querySelector('#eraser');
-eraser.addEventListener("click", erase);
+const eraserButton = document.querySelector('#eraser');
+eraserButton.addEventListener("click", erase);
+eraserButton.className = "off";
 function erase () {
     if (eraserStatus == false){
 
         resetButtons()
 
         eraserStatus = true;
-        eraser.classList.remove("off");
-        eraser.classList.add("on");
+        eraserButton.className = "on";
         paintStatus = false;
     
     } else if (eraserStatus == true) {
@@ -114,24 +109,25 @@ function erase () {
 }
 
 //open color pallet and allow for color choice
-const colorPallet = document.querySelector('#color-pallet');
-colorPallet.addEventListener("click", openColorPallet);
+const colorPalletButton = document.querySelector('#color-pallet');
+colorPalletButton.addEventListener("click", openColorPallet);
+colorPalletButton.className = "off";
 function openColorPallet (){
    
 }
 
 //stream toggle
 let streamStatus = false;
-const stream = document.querySelector('#stream');
-stream.addEventListener("click", drawStream);
+const streamButton = document.querySelector('#stream');
+streamButton.addEventListener("click", drawStream);
+streamButton.className = "off";
 function drawStream () {
     if (streamStatus == false){
 
         resetButtons()
 
         streamStatus = true;
-        stream.classList.remove("off");
-        stream.classList.add("on");
+        streamButton.className = "on";
         paintStatus = false;
     
     } else if (streamStatus == true) {
@@ -141,16 +137,16 @@ function drawStream () {
 
 //shader toggle
 let shaderStatus = false;
-const shader = document.querySelector('#shader');
-shader.addEventListener("click", shade);
+const shaderButton = document.querySelector('#shader');
+shaderButton.addEventListener("click", shade);
+shaderButton.className = "off";
 function shade () {
     if (shaderStatus == false){
 
         resetButtons()
 
         shaderStatus = true;
-        shader.classList.remove("off");
-        shader.classList.add("on");
+        shaderButton.className = "on";
         paintStatus = false;
     
     } else if (shaderStatus == true) {
@@ -160,16 +156,16 @@ function shade () {
 
 //lightener toggle
 let lightenerStatus = false;
-const lightener = document.querySelector('#lightener');
-lightener.addEventListener("click", lighten);
+const lightenerButton = document.querySelector('#lightener');
+lightenerButton.addEventListener("click", lighten);
+lightenerButton.className = "off";
 function lighten () {
     if (lightenerStatus == false){
 
         resetButtons()
 
         lightenerStatus = true;
-        lightener.classList.remove("off");
-        lightener.classList.add("on");
+        lightenerButton.className = "on";
         paintStatus = false;
     
     } else if (lightenerStatus == true) {
@@ -178,17 +174,17 @@ function lighten () {
 }
 
 //fill status button toggle
+let fillStatus = false;
 const fillButton = document.querySelector('#fill-in');
 fillButton.addEventListener("click", fill);
-let fillStatus = false;
+fillButton.className = "off";
 function fill () {
     if (fillStatus == false){
 
         resetButtons()
 
         fillStatus = true;
-        fillButton.classList.remove("off");
-        fillButton.classList.add("on");
+        fillButton.className = "on";
         paintStatus = false;
     
     } else if (fillStatus == true) {
@@ -196,6 +192,25 @@ function fill () {
     }
 }
 
+//resets buttons to starting conditions
+function resetButtons () {
+    
+    paintStatus = true;
+
+    fillStatus = false;
+    rainbowStatus = false;
+    eraserStatus = false;
+    streamStatus = false;
+    shaderStatus = false;
+    lightenerStatus = false;
+
+    fillButton.className = "off";
+    rainbowButton.className = "off";
+    eraserButton.className = "off";
+    streamButton.className = "off";
+    shaderButton.className = "off";
+    lightenerButton.className = "off";
+}
 
 // toggle status of mousedown so that the user can only draw while holding click
 let downStatus = false;
