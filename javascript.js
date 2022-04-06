@@ -103,8 +103,19 @@ function eventHandler (e, nodeID) {
         if (document.getElementById(nodeID).classList.length != 1) {
             return
         } else {
-            getProximal(e);
-            paint(nodeID);
+
+
+            // getProximal(e);
+            // paint(nodeID);
+
+
+            ////////
+            newCells = [nodeID];
+            getProximal(newCells);
+
+            ////////
+
+
         }
     
 
@@ -121,29 +132,75 @@ function paint (nodeID) {
 }
 
 //check up, down, left, right positions of selected cell stored in proximalCells
+// let proximalCells=[];
+// function getProximal (e) {
+
+//     //gets the i and j positions of the clicked cell
+//     nodeID = e.path[0].id;
+//     let nodeID_i = nodeID.slice(0,nodeID.indexOf('-'));
+//     let nodeID_j = nodeID.slice(nodeID.indexOf('-')+1);
+
+//     //gets the cell id's of the four cells surrounding the clicked node
+//     let nodeUp = document.getElementById(`${nodeID_i}-${+nodeID_j+1}`);
+//     let nodeDown = document.getElementById(`${nodeID_i}-${+nodeID_j-1}`);
+//     let nodeRight = document.getElementById(`${+nodeID_i+1}-${nodeID_j}`);
+//     let nodeLeft = document.getElementById(`${+nodeID_i-1}-${nodeID_j}`);
+
+//     proximalCells = [nodeUp, nodeDown, nodeRight, nodeLeft]
+//     // return proximalCells
+//     checkProximal(proximalCells,cellsToColor);
+// }
+
+
+
+
+///////////////////////////////
 let proximalCells=[];
-function getProximal (e) {
+let newCells = [];
+//takes in an array of newCells ID's and finds all their proximal cells 
+function getProximal (newCells) {
 
-    //gets the i and j positions of the clicked cell
-    nodeID = e.path[0].id;
-    let nodeID_i = nodeID.slice(0,nodeID.indexOf('-'));
-    let nodeID_j = nodeID.slice(nodeID.indexOf('-')+1);
+    //resets proximalCells for each run
+    proximalCells = [];
 
-    //gets the cell id's of the four cells surrounding the clicked node
-    let nodeUp = document.getElementById(`${nodeID_i}-${+nodeID_j+1}`);
-    let nodeDown = document.getElementById(`${nodeID_i}-${+nodeID_j-1}`);
-    let nodeRight = document.getElementById(`${+nodeID_i+1}-${nodeID_j}`);
-    let nodeLeft = document.getElementById(`${+nodeID_i-1}-${nodeID_j}`);
+    let nodeID_i;
+    let nodeID_j;
 
-    proximalCells = [nodeUp, nodeDown, nodeRight, nodeLeft]
-    // return proximalCells
+    for (i=0; i<newCells.length; i++) {
+
+        //find i and j components of each cell id
+        nodeID_i = newCells[i].slice(0,newCells[i].indexOf('-'));
+        nodeID_j = newCells[i].slice(newCells[i].indexOf('-')+1);
+
+        //find the cells around newCells[i]
+        let nodeUp = document.getElementById(`${nodeID_i}-${+nodeID_j+1}`);
+        let nodeDown = document.getElementById(`${nodeID_i}-${+nodeID_j-1}`);
+        let nodeRight = document.getElementById(`${+nodeID_i+1}-${nodeID_j}`);
+        let nodeLeft = document.getElementById(`${+nodeID_i-1}-${nodeID_j}`);
+
+        //append new nodes to proximalCells 
+        proximalCells.push(nodeUp, nodeDown, nodeRight, nodeLeft)
+    }
+
+    //call checkProximal on all new proximal cells against old ones
     checkProximal(proximalCells,cellsToColor);
+
 }
+///////////////////////////
+
+
+
+
+
+/////////////////////////////////////////////
 
 //this function will check whether the cells in quadArray are already colored, 
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
-function checkProximal (proximalCells,cellsToColor,nodeID) {
+function checkProximal (proximalCells,cellsToColor) {
+
+    //resets newCells for each run
+    newCells = [];
 
     for (i=0 ; i < proximalCells.length ; i++) {
         
@@ -161,7 +218,51 @@ function checkProximal (proximalCells,cellsToColor,nodeID) {
 
         //adds all cells that pass the checks to the list to be colored
         } else {
+
             cellsToColor.push(proximalCells[i]);
+            newCells.push(proximalCells[i].id);
         }
     }
+
+    //as long as new cells were added it will keep running 
+    if (newCells === undefined || newCells.length == 0) {
+        return
+    } else {
+        getProximal(newCells);
+
+    }
+ 
+
 }
+////////////////////////////////////////////
+
+
+
+
+
+
+// //this function will check whether the cells in quadArray are already colored, 
+// //out of bounds, or already in the list of cells
+// let cellsToColor = [];
+// function checkProximal (proximalCells,cellsToColor,nodeID) {
+
+//     for (i=0 ; i < proximalCells.length ; i++) {
+        
+//         //check to see if quadArray contains null or already colored elements
+//         if (proximalCells[i] === null) {
+//             continue
+
+//         //check to see if cell already has color class on it
+//         } else if (proximalCells[i].classList.length != 1) {
+//             continue
+
+//         //check to see if cell is already logged in cellsToColor
+//         } else if (cellsToColor.includes(proximalCells[i]) == true ) {
+//             continue
+
+//         //adds all cells that pass the checks to the list to be colored
+//         } else {
+//             cellsToColor.push(proximalCells[i]);
+//         }
+//     }
+// }
