@@ -23,9 +23,9 @@ function genGrid (n) {
 
                 //get's the specific ID of the cell which was clicked over
                 let nodeID = e.path[0].id;
-
-                paint(nodeID);
                 getProximal(e);
+                paint(nodeID);
+                
 
             });
             div.addEventListener("mouseup", mouseUp);
@@ -167,7 +167,5 @@ function checkProximal (toCheck,toColor) {
         } else {
             cellsToColor.push(proximalCells[i]);
         }
-
     }
-    // return cellsToColor
 }
