@@ -56,7 +56,7 @@ slider.oninput = () => {
 }
 
 //resets page back to initial conditions
-const resetButton = document.querySelector('.reset');
+const resetButton = document.querySelector('#reset');
 resetButton.addEventListener("click", reset);
 function reset (){
 
@@ -76,59 +76,45 @@ function reset (){
 
 //rainbow toggle
 let rainbowStatus = false;
-const rainbow = document.querySelector('.rainbow');
+const rainbow = document.querySelector('#rainbow');
 rainbow.addEventListener("click", drawRainbow);
-function drawRainbow (){
-    if (rainbowStatus == false) {
+function drawRainbow () {
+    if (rainbowStatus == false){
+
+        resetButtons()
+
         rainbowStatus = true;
-
+        rainbow.classList.remove("off");
+        rainbow.classList.add("on");
         paintStatus = false;
-        fillStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
-    } else if (rainowStatus == true) {
-        rainbowStatus = false;
-
-        paintStatus = true;
-        fillStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
+        
+    
+    } else if (rainbowStatus == true) {
+        resetButtons()
     }
 }
 
 //eraser toggle
 let eraserStatus = false;
-const eraser = document.querySelector('.eraser');
+const eraser = document.querySelector('#eraser');
 eraser.addEventListener("click", erase);
-function erase (){
+function erase () {
+    if (eraserStatus == false){
 
-    if (eraserStatus == false) {
+        resetButtons()
+
         eraserStatus = true;
-
+        eraser.classList.remove("off");
+        eraser.classList.add("on");
         paintStatus = false;
-        fillStatus = false;
-        rainbowStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
+    
     } else if (eraserStatus == true) {
-        eraserStatus = false;
-
-        paintStatus = true;
-        fillStatus = false;
-        rainbowStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
+        resetButtons()
     }
 }
 
 //open color pallet and allow for color choice
-const colorPallet = document.querySelector('.color-pallet');
+const colorPallet = document.querySelector('#color-pallet');
 colorPallet.addEventListener("click", openColorPallet);
 function openColorPallet (){
    
@@ -136,174 +122,77 @@ function openColorPallet (){
 
 //stream toggle
 let streamStatus = false;
-const stream = document.querySelector('.stream');
+const stream = document.querySelector('#stream');
 stream.addEventListener("click", drawStream);
-function drawStream (){
-    if (streamStatus == false) {
+function drawStream () {
+    if (streamStatus == false){
+
+        resetButtons()
+
         streamStatus = true;
-
+        stream.classList.remove("off");
+        stream.classList.add("on");
         paintStatus = false;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
-     
+    
     } else if (streamStatus == true) {
-        streamStatus = false;
-
-        paintStatus = true;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
+        resetButtons()
     }
 }
 
 //shader toggle
 let shaderStatus = false;
-const shader = document.querySelector('.shader');
+const shader = document.querySelector('#shader');
 shader.addEventListener("click", shade);
-function shade (){
-    if (shaderStatus == false) {
+function shade () {
+    if (shaderStatus == false){
+
+        resetButtons()
+
         shaderStatus = true;
-
+        shader.classList.remove("off");
+        shader.classList.add("on");
         paintStatus = false;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        lightenerStatus = false;
+    
     } else if (shaderStatus == true) {
-        shaderStatus = false;
-
-        paintStatus = true;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        lightenerStatus = false;
+        resetButtons()
     }
 }
 
 //lightener toggle
 let lightenerStatus = false;
-const lightener = document.querySelector('.lightener');
+const lightener = document.querySelector('#lightener');
 lightener.addEventListener("click", lighten);
-function lighten (){
-    if (lightenerStatus == false) {
+function lighten () {
+    if (lightenerStatus == false){
+
+        resetButtons()
+
         lightenerStatus = true;
-
+        lightener.classList.remove("off");
+        lightener.classList.add("on");
         paintStatus = false;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
+    
     } else if (lightenerStatus == true) {
-        lightenerStatus = false;
-
-        paintStatus = true;
-        fillStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
+        resetButtons()
     }
 }
 
 //fill status button toggle
-const fillButton = document.querySelector('.fill-in');
+const fillButton = document.querySelector('#fill-in');
 fillButton.addEventListener("click", fill);
 let fillStatus = false;
 function fill () {
     if (fillStatus == false){
+
+        resetButtons()
+
         fillStatus = true;
+        fillButton.classList.remove("off");
+        fillButton.classList.add("on");
         paintStatus = false;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
     
     } else if (fillStatus == true) {
-        fillStatus = false;
-        paintStatus = true;
-        rainbowStatus = false;
-        eraserStatus = false;
-        streamStatus = false;
-        shaderStatus = false;
-        lightenerStatus = false;
-    }
-}
-
-let testStatus = false;
-const test = document.querySelector('.test');
-test.addEventListener("click", function(e){
-    console.log(e)
-    buttonHandler(e)
-});
-
-let buttonList=[];
-buttonList = Array.from(document.querySelectorAll("button"))
-function buttonHandler (e) {
-
-    e.currentTarget.classList.add("on")
-
-    // let unPressed = buttonList.slice(buttonList.indexOf(e.currentTarget))
-    // console.log(e)
-    // console.log(e.currentTarget)
-    // console.log(e.currentTarget.classList)
-
-
-
-    // if (e.currentTarget.classList.contains("on")) {
-    //     e.currentTarget.classList.remove("on")
-    //     e.currentTarget.classList.add('off')
-    // } else if (e.currentTarget.className == "off") {
-    //     e.currentTarget.classList.remove("off")
-    //     e.currentTarget.classList.add('on')
-    // }
-    
-    // unPressed.forEach(element => {
-    //     if (element.classList.includes("on")){
-    //         element.classList.remove("on")
-    //         element.classList.add('off')
-    //     } 
-    // })
-    
-}
-
-function buttonCaller (e) {
-    //checks the status of the clicked button just before being clicked
-    let currentStatus;
-    if (e.currentTarget.classList.contains("off")){
-        currentStatus = true
-    } else if (e.currentTarget.classList.contains("on")){
-        currentStatus = false
-    }
-
-    if (rainbowStatus == true) {
-        drawRainbow()
-    } else if (eraserStatus == true) {
-        erase()
-    } else if (streamStatus == true) {
-        drawStream()
-    } else if (shaderStatus) {
-        shade()
-    } else if (lightenerStatus == true) {
-        lighten()
-    } else if (fillStatus == true) {
-        fill()
-    } else if (testStatus == true) {
-        test()
-    }
-
-    if (currentStatus == true) {
-        e.currentTarget.classList.remove("on")
-        e.currentTarget.classList.add("off")
-        
+        resetButtons()
     }
 }
 
