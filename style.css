@@ -21,10 +21,7 @@
     border: 1px solid grey;
     display: flex;
     flex: auto;
-}
-
-.black-paint {
-    background-color: black;
+    background-color: white;
 }
 
 .on {

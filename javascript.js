@@ -30,8 +30,10 @@ function genGrid (n) {
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
                 //only allows the user to paint while holding down click
-                if (downStatus == true) {
-                    randomColor();
+                if (downStatus == true && rainbowStatus == true) {
+                    randomColor()
+                    paint(nodeID,backgroundColor);
+                } else if (downStatus == true) {
                     paint(nodeID,backgroundColor);
                 }
             });
@@ -91,6 +93,11 @@ function resetButtons () {
     streamButton.className = "off";
     shaderButton.className = "off";
     lightenerButton.className = "off";
+
+    rainbowFillStatus = false;
+    rainbowFillButton.className = "off";
+
+    backgroundColor = "black";
 }
 
 // toggle status of mousedown so that the user can only draw while holding click
@@ -176,6 +183,7 @@ function checkProximal (proximalCells,cellsToColor,backgroundColor) {
             continue
 
         //check to see if cell already has color class on it
+        
         } else if (proximalCells[i].style.backgroundColor == backgroundColor) {
             continue
 
@@ -201,14 +209,18 @@ function checkProximal (proximalCells,cellsToColor,backgroundColor) {
 
 function fillCells(cellsToColor) {
     cellsToColor.forEach(element => {
-        // element.classList.add('black-paint');
-        element.style.backgroundColor = backgroundColor;
+        if (rainbowFillStatus == true) {
+            element.style.backgroundColor = randomColor();
+        } else {
+            element.style.backgroundColor = backgroundColor;
+        }
+        backgroundColor = "black";
     });
 }
 
 //generates a random color for rainbow mode 
 function randomColor() {
-    backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    return backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
 }
 
 
@@ -229,6 +241,27 @@ function drawRainbow () {
     
     } else if (rainbowStatus == true) {
         resetButtons()
+    }
+}
+
+//rainbow fill toggle
+let rainbowFillStatus = false;
+const rainbowFillButton = document.querySelector('#rainbow-fill');
+rainbowFillButton.addEventListener("click", fillRainbow);
+rainbowFillButton.className = "off";
+function fillRainbow () {
+    if (rainbowFillStatus == false){
+
+        rainbowFillStatus = true;
+        rainbowFillButton.className = "on";
+
+        fillStatus = true;
+        
+    } else if (rainbowFillStatus == true) {
+        rainbowFillStatus = false;
+        rainbowFillButton.className = "off";
+
+        fillStatus = false;
     }
 }
 
