@@ -31,6 +31,7 @@ function genGrid (n) {
                 let nodeID  = e.path[0].id;
                 //only allows the user to paint while holding down click
                 if (downStatus == true) {
+                    randomColor();
                     paint(nodeID,backgroundColor);
                 }
             });
@@ -118,7 +119,7 @@ function eventHandler (e, nodeID) {
         paint(nodeID,backgroundColor)
     } else if (rainbowStatus == true) {
         mouseDown()
-        paint(nodeID,randomColor())
+        paint(nodeID,backgroundColor)
     }
 }
 
