@@ -21,6 +21,7 @@ function genGrid (n) {
 
                 //get's the specific ID of the cell which was clicked over
                 let nodeID = e.path[0].id;
+                // console.log(e)
                 //redirects mousedown event to a handler depending on user settings
                 eventHandler(e,nodeID)
 
@@ -30,7 +31,7 @@ function genGrid (n) {
                 let nodeID  = e.path[0].id;
                 //only allows the user to paint while holding down click
                 if (downStatus == true) {
-                    paint(nodeID);
+                    paint(nodeID,backgroundColor);
                 }
             });
 
@@ -56,13 +57,14 @@ slider.oninput = () => {
 }
 
 //resets page back to initial conditions
+let backgroundColor = "black";
 const resetButton = document.querySelector('#reset');
 resetButton.addEventListener("click", reset);
 resetButton.className = "off";
 function reset (){
 
     resetButtons()
-
+    backgroundColor = "black";
     n = 16;
     slider.value = n;
     output.textContent = n;
@@ -235,14 +237,16 @@ function eventHandler (e, nodeID) {
 
     } else if (paintStatus == true) {
         mouseDown()
-        paint(nodeID)
+        paint(nodeID,backgroundColor)
     }
 }
 
 let paintStatus = true;
-function paint (nodeID) {
+function paint (nodeID,color) {
     const div = document.getElementById(`${nodeID}`);
-    div.classList.add("black-paint")
+    div.style.backgroundColor = backgroundColor;  
+
+    // div.classList.add("black-paint")
 }
 
 let proximalCells=[];
@@ -270,7 +274,7 @@ function getProximal (newCells) {
     }
 
     //call checkProximal on all new proximal cells against old ones
-    checkProximal(proximalCells,cellsToColor);
+    checkProximal(proximalCells,cellsToColor, backgroundColor);
 
 }
 
@@ -278,7 +282,7 @@ function getProximal (newCells) {
 //this function will check whether the cells in proximalCells are already colored, 
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
-function checkProximal (proximalCells,cellsToColor) {
+function checkProximal (proximalCells,cellsToColor,backgroundColor) {
 
     //resets newCells for each run
     newCells = [];
@@ -290,7 +294,7 @@ function checkProximal (proximalCells,cellsToColor) {
             continue
 
         //check to see if cell already has color class on it
-        } else if (proximalCells[i].classList.length != 1) {
+        } else if (proximalCells[i].style.backgroundColor == backgroundColor) {
             continue
 
         //check to see if cell is already logged in cellsToColor
@@ -315,12 +319,13 @@ function checkProximal (proximalCells,cellsToColor) {
 
 function fillCells(cellsToColor) {
     cellsToColor.forEach(element => {
-        element.classList.add('black-paint');
+        // element.classList.add('black-paint');
+        element.style.backgroundColor = backgroundColor;
     });
 }
 
 //generates a random color for rainbow mode 
 function randomColor() {
-    let color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-
+    backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
   }
+
