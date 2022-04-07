@@ -202,6 +202,8 @@ function checkProximal (proximalCells,cellsToColor,backgroundColor) {
     //as long as new cells were added it will keep running 
     if (newCells === undefined || newCells.length == 0) {
         fillCells(cellsToColor)
+        cellsToColor.splice(0, cellsToColor.length)
+
     } else {
         getProximal(newCells);
     }
