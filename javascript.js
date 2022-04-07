@@ -364,7 +364,12 @@ function fill () {
         fillStatus = true;
         fillButton.className = "on";
         paintStatus = false;
-    
+
+    } else if (fillStatus == true && rainbowFillStatus == true) {
+        resetButtons()
+        fillStatus = true;
+        fillButton.className = "on";
+        paintStatus = false;
     } else if (fillStatus == true) {
         resetButtons()
     }
