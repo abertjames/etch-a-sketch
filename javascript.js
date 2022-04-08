@@ -86,8 +86,8 @@ function randomColor() {
     return backgroundColor;
 }
 
+//conerts hsl to hex so that the color selection color will represent the current backgroundColor
 function hslToHex(h) {
-   
     const a = 100 * Math.min(.50, 1 - .50) / 100;
     const f = n => {
       const k = (n + h / 30) % 12;
@@ -239,8 +239,6 @@ function resetButtons () {
     lightenerButton.className = "off";
     rainbowFillButton.className = "off";
     invertButton.className = "off";
-
-
 }
 
 // toggle status of mousedown so that the user can only draw while holding click
@@ -403,12 +401,13 @@ const fillButton = document.querySelector('#fill-in');
 fillButton.addEventListener("click", fill);
 fillButton.className = "off";
 function fill () {
-    if (fillStatus == false){
+    if (fillStatus == false && invertStatus == true){
 
         resetButtons()
-
         fillStatus = true;
+        invertStatus = true;
         fillButton.className = "on";
+        invertButton.className = "on"
         paintStatus = false;
 
     } else if (fillStatus == true && rainbowFillStatus == true) {
@@ -416,6 +415,14 @@ function fill () {
         fillStatus = true;
         fillButton.className = "on";
         paintStatus = false;
+
+    } else if (fillStatus == false) {
+        resetButtons()
+
+        fillStatus = true;
+        fillButton.className = "on";
+        paintStatus = false;
+
     } else if (fillStatus == true) {
         resetButtons()
     }
