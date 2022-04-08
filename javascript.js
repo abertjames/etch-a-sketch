@@ -62,8 +62,11 @@ function clickHandler (nodeID) {
         mouseDown();
         erase(nodeID);
     } else if (lightenerStatus == true) {
-        mouseDown()
-        lightener(nodeID)
+        mouseDown();
+        lightener(nodeID);
+    } else if (shaderStatus == true){
+        mouseDown();
+        shader(nodeID);
     }
 }
 
@@ -79,7 +82,9 @@ function hoverHandler (nodeID) {
         erase(nodeID)
     } else if (downStatus == true && lightenerStatus == true) {
         lightener(nodeID)
-    } else if (downStatus == true) {
+    } else if (downStatus == true && shaderStatus == true){
+        shader(nodeID)
+    }else if (downStatus == true) {
         paint(nodeID,backgroundColor);
     }
 }
@@ -121,6 +126,23 @@ function lightener (nodeID) {
     })
     div.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
 }
+
+function shader (nodeID) {
+    const div = document.getElementById(nodeID);
+    let start = div.style.backgroundColor.indexOf("(");
+    let end = div.style.backgroundColor.indexOf(")");
+    let rgbString = div.style.backgroundColor.slice(start+1,end).split(", ")
+    let rgbArray = [];
+    rgbString.forEach(element =>{
+        if ((parseInt(element)-25)>0) {
+            rgbArray.push(parseInt(element)-25)
+        } else if ((parseInt(element)-25) <= 0){
+            rgbArray.push(0)
+        }
+    })
+    div.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
+}
+
 
 //conerts hsl to hex so that the color selection color will represent the current backgroundColor
 function hslToHex(h) {
