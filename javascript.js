@@ -95,8 +95,6 @@ function hslToHex(h) {
       return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
     };
     colorPaletteButton.value = `#${f(0)}${f(8)}${f(4)}`;
-
-
 }
 
 let slider = document.getElementById("myRange");
@@ -210,6 +208,7 @@ function reset (){
     resetButtons()
     backgroundColor = "black";
     colorPaletteButton.value = "#000000";
+    gridContainer.style.backgroundColor = "";
     n = 16;
     slider.value = n;
     output.textContent = n;
@@ -229,6 +228,8 @@ function resetButtons () {
     shaderStatus = false;
     lightenerStatus = false;
     rainbowFillStatus = false;
+    invertStatus = false;
+
 
     fillButton.className = "off";
     rainbowButton.className = "off";
@@ -237,6 +238,8 @@ function resetButtons () {
     shaderButton.className = "off";
     lightenerButton.className = "off";
     rainbowFillButton.className = "off";
+    invertButton.className = "off";
+
 
 }
 
@@ -311,8 +314,6 @@ function erase () {
 //open color palette and allow for color choice
 const colorPaletteButton = document.querySelector('#colorPalette');
 colorPaletteButton.addEventListener('input', (e) => {
-    console.log(e.target)
-    console.log(e.target.value)
     backgroundColor = e.target.value;
 });
 
@@ -332,6 +333,29 @@ function drawStream () {
     
     } else if (streamStatus == true) {
         resetButtons()
+    }
+}
+
+//invert grid toggle
+let invertStatus = false;
+const invertButton = document.querySelector('#invert');
+invertButton.addEventListener("click", invert);
+invertButton.className = "off";
+function invert () {
+    if (invertStatus == false){
+
+        invertStatus = true;
+        invertButton.className = "on";
+        backgroundColor = "white";
+        colorPaletteButton.value = "#FFFFFF";
+        gridContainer.style.backgroundColor = "black";
+    
+    } else if (invertStatus == true) {
+        invertStatus = false;
+        invertButton.className = "off";
+        backgroundColor = "black";
+        colorPaletteButton.value = "#000000";
+        gridContainer.style.backgroundColor = "";
     }
 }
 
