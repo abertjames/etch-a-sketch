@@ -21,7 +21,7 @@
     border: 1px solid grey;
     display: flex;
     flex: auto;
-    background-color: white;
+    background-color: transparent;
 }
 
 .on {

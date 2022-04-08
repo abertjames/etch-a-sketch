@@ -21,7 +21,7 @@ function genGrid (n) {
 
                 //get's the specific ID of the cell which was clicked over
                 let nodeID = e.path[0].id;
-                // console.log(e)
+
                 //redirects mousedown event to a handler depending on user settings
                 eventHandler(e,nodeID)
 
@@ -29,7 +29,9 @@ function genGrid (n) {
             div.addEventListener("mouseup", mouseUp);
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
+
                 //only allows the user to paint while holding down click
+                //and optionally rainbow paint
                 if (downStatus == true && rainbowStatus == true) {
                     randomColor()
                     paint(nodeID,backgroundColor);
@@ -86,6 +88,7 @@ function resetButtons () {
     streamStatus = false;
     shaderStatus = false;
     lightenerStatus = false;
+    rainbowFillStatus = false;
 
     fillButton.className = "off";
     rainbowButton.className = "off";
@@ -93,11 +96,8 @@ function resetButtons () {
     streamButton.className = "off";
     shaderButton.className = "off";
     lightenerButton.className = "off";
-
-    rainbowFillStatus = false;
     rainbowFillButton.className = "off";
 
-    backgroundColor = "black";
 }
 
 // toggle status of mousedown so that the user can only draw while holding click
@@ -134,8 +134,6 @@ let paintStatus = true;
 function paint (nodeID,backgroundColor) {
     const div = document.getElementById(`${nodeID}`);
     div.style.backgroundColor = backgroundColor;  
-
-    // div.classList.add("black-paint")
 }
 
 let proximalCells=[];
@@ -172,6 +170,7 @@ function getProximal (newCells) {
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
 function checkProximal (proximalCells,cellsToColor,backgroundColor) {
+    console.log(backgroundColor)
 
     //resets newCells for each run
     newCells = [];
@@ -183,8 +182,7 @@ function checkProximal (proximalCells,cellsToColor,backgroundColor) {
             continue
 
         //check to see if cell already has color class on it
-        
-        } else if (proximalCells[i].style.backgroundColor == backgroundColor) {
+        } else if (proximalCells[i].style.backgroundColor != "") {
             continue
 
         //check to see if cell is already logged in cellsToColor
@@ -202,6 +200,8 @@ function checkProximal (proximalCells,cellsToColor,backgroundColor) {
     //as long as new cells were added it will keep running 
     if (newCells === undefined || newCells.length == 0) {
         fillCells(cellsToColor)
+        //this completely clears cellsToColor so if used again it wont 
+        //change old cells
         cellsToColor.splice(0, cellsToColor.length)
 
     } else {
@@ -213,10 +213,12 @@ function fillCells(cellsToColor) {
     cellsToColor.forEach(element => {
         if (rainbowFillStatus == true) {
             element.style.backgroundColor = randomColor();
+            //this is so rainbow fill can be used twice in a row
+            backgroundColor = "black";
         } else {
             element.style.backgroundColor = backgroundColor;
         }
-        backgroundColor = "black";
+
     });
 }
 
@@ -239,10 +241,11 @@ function drawRainbow () {
         rainbowStatus = true;
         rainbowButton.className = "on";
         paintStatus = false;
+        backgroundColor = randomColor();
         
-    
     } else if (rainbowStatus == true) {
         resetButtons()
+        backgroundColor = "black";
     }
 }
 
@@ -254,16 +257,14 @@ rainbowFillButton.className = "off";
 function fillRainbow () {
     if (rainbowFillStatus == false){
 
+        resetButtons()
+
         rainbowFillStatus = true;
         rainbowFillButton.className = "on";
-
         fillStatus = true;
         
     } else if (rainbowFillStatus == true) {
-        rainbowFillStatus = false;
-        rainbowFillButton.className = "off";
-
-        fillStatus = false;
+        resetButtons()
     }
 }
 
@@ -286,13 +287,11 @@ function erase () {
     }
 }
 
-//open color pallet and allow for color choice
-const colorPalletButton = document.querySelector('#color-pallet');
-colorPalletButton.addEventListener("click", openColorPallet);
-colorPalletButton.className = "off";
-function openColorPallet (){
-   
-}
+//open color palette and allow for color choice
+const colorPaletteButton = document.querySelector('#color-palette');
+colorPaletteButton.addEventListener('input', (e) => {
+    backgroundColor = e.target.value;
+});
 
 //stream toggle
 let streamStatus = false;
