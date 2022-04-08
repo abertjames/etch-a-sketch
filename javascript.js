@@ -23,7 +23,7 @@ function genGrid (n) {
                 let nodeID = e.path[0].id;
 
                 //redirects mousedown event to a handler depending on user settings
-                eventHandler(e,nodeID)
+                eventHandler(nodeID)
 
             });
             div.addEventListener("mouseup", mouseUp);
@@ -35,9 +35,11 @@ function genGrid (n) {
                 if (downStatus == true && rainbowStatus == true) {
                     randomColor()
                     paint(nodeID,backgroundColor);
-                } else if (downStatus == true) {
+                } else if (downStatus == true && eraserStatus == true){
+                    erase(nodeID)
+                }else if (downStatus == true) {
                     paint(nodeID,backgroundColor);
-                }
+                } 
             });
 
             rowContainer.appendChild(div);
@@ -47,10 +49,10 @@ function genGrid (n) {
 }
 
 
-////////////////////// event handler /////////////////////
+////////////////////////////////////////////////// event handler ///////////////////////////////////////////////////////////
 
 //this function checks the status of the user input settings and calls the appropriate function
-function eventHandler (e, nodeID) {
+function eventHandler (nodeID) {
     if (fillStatus == true) {
 
         //this check prevents fill being activated on an already colored cell
@@ -62,20 +64,28 @@ function eventHandler (e, nodeID) {
         }
 
     } else if (paintStatus == true) {
-        mouseDown()
-        paint(nodeID,backgroundColor)
+        mouseDown();
+        paint(nodeID,backgroundColor);
     } else if (rainbowStatus == true) {
-        mouseDown()
-        paint(nodeID,backgroundColor)
+        mouseDown();
+        paint(nodeID,backgroundColor);
+    } else if (eraserStatus == true) {
+        mouseDown();
+        erase(nodeID);
     }
 }
 
-//////////////////// input /////////////////////
+///////////////////////////////////////////////////////// input /////////////////////////////////////////////////////////////////
 
 let paintStatus = true;
 function paint (nodeID,backgroundColor) {
     const div = document.getElementById(`${nodeID}`);
     div.style.backgroundColor = backgroundColor;  
+}
+
+function erase(nodeID) {
+    const div = document.getElementById(`${nodeID}`);
+    div.style.backgroundColor = "";  
 }
 
 //generates a random color for rainbow mode 
@@ -112,7 +122,13 @@ slider.oninput = () => {
     genGrid(n)
 }
 
-///////////////////// fill function //////////////////////
+//open color palette and allow for color choice
+const colorPaletteButton = document.querySelector('#colorPalette');
+colorPaletteButton.addEventListener('input', (e) => {
+    backgroundColor = e.target.value;
+});
+
+//////////////////////////////////////////////////////////// fill function //////////////////////////////////////////////////////////
 
 let proximalCells=[];
 let newCells = [];
@@ -145,7 +161,7 @@ function getProximal (newCells) {
 
 
 //this function will check whether the cells in proximalCells are already colored, 
-//out of bounds, or already in the list of cells
+//out of bounds, or already in the list of cellsToColor
 let cellsToColor = [];
 function checkProximal (proximalCells,cellsToColor,backgroundColor) {
 
@@ -196,7 +212,7 @@ function fillCells(cellsToColor) {
     });
 }
 
-/////////////////// toggle management /////////////////
+//////////////////////////////////////////////////////////// toggle management ///////////////////////////////////////////////////////
 
 //resets page back to initial conditions
 let backgroundColor = "black";
@@ -254,9 +270,9 @@ function mouseUp () {
 //rainbow toggle
 let rainbowStatus = false;
 const rainbowButton = document.querySelector('#rainbow');
-rainbowButton.addEventListener("click", drawRainbow);
+rainbowButton.addEventListener("click", toggleRainbow);
 rainbowButton.className = "off";
-function drawRainbow () {
+function toggleRainbow () {
     if (rainbowStatus == false){
 
         resetButtons()
@@ -274,9 +290,9 @@ function drawRainbow () {
 //rainbow fill toggle
 let rainbowFillStatus = false;
 const rainbowFillButton = document.querySelector('#rainbow-fill');
-rainbowFillButton.addEventListener("click", fillRainbow);
+rainbowFillButton.addEventListener("click", toggleRainbowFill);
 rainbowFillButton.className = "off";
-function fillRainbow () {
+function toggleRainbowFill () {
     if (rainbowFillStatus == false){
 
         resetButtons()
@@ -293,9 +309,9 @@ function fillRainbow () {
 //eraser toggle
 let eraserStatus = false;
 const eraserButton = document.querySelector('#eraser');
-eraserButton.addEventListener("click", erase);
+eraserButton.addEventListener("click", toggleErase);
 eraserButton.className = "off";
-function erase () {
+function toggleErase () {
     if (eraserStatus == false){
 
         resetButtons()
@@ -309,18 +325,12 @@ function erase () {
     }
 }
 
-//open color palette and allow for color choice
-const colorPaletteButton = document.querySelector('#colorPalette');
-colorPaletteButton.addEventListener('input', (e) => {
-    backgroundColor = e.target.value;
-});
-
 //stream toggle
 let streamStatus = false;
 const streamButton = document.querySelector('#stream');
-streamButton.addEventListener("click", drawStream);
+streamButton.addEventListener("click", toggleStream);
 streamButton.className = "off";
-function drawStream () {
+function toggleStream () {
     if (streamStatus == false){
 
         resetButtons()
@@ -337,9 +347,9 @@ function drawStream () {
 //invert grid toggle
 let invertStatus = false;
 const invertButton = document.querySelector('#invert');
-invertButton.addEventListener("click", invert);
+invertButton.addEventListener("click", toggleInvert);
 invertButton.className = "off";
-function invert () {
+function toggleInvert () {
     if (invertStatus == false){
 
         invertStatus = true;
@@ -360,9 +370,9 @@ function invert () {
 //shader toggle
 let shaderStatus = false;
 const shaderButton = document.querySelector('#shader');
-shaderButton.addEventListener("click", shade);
+shaderButton.addEventListener("click", toggleShade);
 shaderButton.className = "off";
-function shade () {
+function toggleShade () {
     if (shaderStatus == false){
 
         resetButtons()
@@ -379,9 +389,9 @@ function shade () {
 //lightener toggle
 let lightenerStatus = false;
 const lightenerButton = document.querySelector('#lightener');
-lightenerButton.addEventListener("click", lighten);
+lightenerButton.addEventListener("click", toggleLighten);
 lightenerButton.className = "off";
-function lighten () {
+function toggleLighten () {
     if (lightenerStatus == false){
 
         resetButtons()
@@ -398,9 +408,9 @@ function lighten () {
 //fill status button toggle
 let fillStatus = false;
 const fillButton = document.querySelector('#fill-in');
-fillButton.addEventListener("click", fill);
+fillButton.addEventListener("click", toggleFill);
 fillButton.className = "off";
-function fill () {
+function toggleFill () {
     if (fillStatus == false && invertStatus == true){
 
         resetButtons()
