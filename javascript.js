@@ -46,75 +46,15 @@ function genGrid (n) {
     }
 }
 
-let slider = document.getElementById("myRange");
-let output = document.getElementById("para");
-output.textContent = slider.value;
 
-//generates grid based on initial value of the slider defined in the HTML as 16
-let n = slider.value;
-genGrid(n)
-//the oninput function allows for continuous generation 
-//of the grid so you can see it update in real time
-slider.oninput = () => {
-    output.textContent = slider.value;
-    n = slider.value;
-    genGrid(n)
-}
-
-//resets page back to initial conditions
-let backgroundColor = "black";
-const resetButton = document.querySelector('#reset');
-resetButton.addEventListener("click", reset);
-resetButton.className = "off";
-function reset (){
-
-    resetButtons()
-    backgroundColor = "black";
-    n = 16;
-    slider.value = n;
-    output.textContent = n;
-    genGrid(n)
-}
-
-
-//resets buttons to starting conditions
-function resetButtons () {
-    
-    paintStatus = true;
-
-    fillStatus = false;
-    rainbowStatus = false;
-    eraserStatus = false;
-    streamStatus = false;
-    shaderStatus = false;
-    lightenerStatus = false;
-    rainbowFillStatus = false;
-
-    fillButton.className = "off";
-    rainbowButton.className = "off";
-    eraserButton.className = "off";
-    streamButton.className = "off";
-    shaderButton.className = "off";
-    lightenerButton.className = "off";
-    rainbowFillButton.className = "off";
-
-}
-
-// toggle status of mousedown so that the user can only draw while holding click
-let downStatus = false;
-function mouseDown () {
-    downStatus = true;
-}
-function mouseUp () {
-    downStatus = false;
-}
+////////////////////// event handler /////////////////////
 
 //this function checks the status of the user input settings and calls the appropriate function
 function eventHandler (e, nodeID) {
     if (fillStatus == true) {
 
-        //this check prevents fill being activated on an already colored cell 
-        if (document.getElementById(nodeID).classList.length != 1) {
+        //this check prevents fill being activated on an already colored cell
+        if (document.getElementById(nodeID).style.backgroundColor != "") {
             return
         } else {
             newCells = [nodeID];
@@ -130,11 +70,51 @@ function eventHandler (e, nodeID) {
     }
 }
 
+//////////////////// input /////////////////////
+
 let paintStatus = true;
 function paint (nodeID,backgroundColor) {
     const div = document.getElementById(`${nodeID}`);
     div.style.backgroundColor = backgroundColor;  
 }
+
+//generates a random color for rainbow mode 
+function randomColor() {
+    let randomNumber = Math.random() * 360;
+    backgroundColor = `hsl(${randomNumber}, 100%, 50%)`;
+    hslToHex(randomNumber);
+    return backgroundColor;
+}
+
+function hslToHex(h) {
+   
+    const a = 100 * Math.min(.50, 1 - .50) / 100;
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      const color = .50 - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+    };
+    colorPaletteButton.value = `#${f(0)}${f(8)}${f(4)}`;
+
+
+}
+
+let slider = document.getElementById("myRange");
+let output = document.getElementById("para");
+output.textContent = slider.value;
+
+//generates grid based on initial value of the slider defined in the HTML as 16
+let n = slider.value;
+genGrid(n)
+//the oninput function allows for continuous generation 
+//of the grid so you can see it update in real time
+slider.oninput = () => {
+    output.textContent = slider.value;
+    n = slider.value;
+    genGrid(n)
+}
+
+///////////////////// fill function //////////////////////
 
 let proximalCells=[];
 let newCells = [];
@@ -170,7 +150,6 @@ function getProximal (newCells) {
 //out of bounds, or already in the list of cells
 let cellsToColor = [];
 function checkProximal (proximalCells,cellsToColor,backgroundColor) {
-    console.log(backgroundColor)
 
     //resets newCells for each run
     newCells = [];
@@ -213,18 +192,61 @@ function fillCells(cellsToColor) {
     cellsToColor.forEach(element => {
         if (rainbowFillStatus == true) {
             element.style.backgroundColor = randomColor();
-            //this is so rainbow fill can be used twice in a row
-            backgroundColor = "black";
         } else {
             element.style.backgroundColor = backgroundColor;
         }
-
     });
 }
 
-//generates a random color for rainbow mode 
-function randomColor() {
-    return backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+/////////////////// toggle management /////////////////
+
+//resets page back to initial conditions
+let backgroundColor = "black";
+const resetButton = document.querySelector('#reset');
+resetButton.addEventListener("click", reset);
+resetButton.className = "off";
+function reset (){
+
+    resetButtons()
+    backgroundColor = "black";
+    colorPaletteButton.value = "#000000";
+    n = 16;
+    slider.value = n;
+    output.textContent = n;
+    genGrid(n)
+}
+
+
+//resets buttons to starting conditions
+function resetButtons () {
+    
+    paintStatus = true;
+
+    fillStatus = false;
+    rainbowStatus = false;
+    eraserStatus = false;
+    streamStatus = false;
+    shaderStatus = false;
+    lightenerStatus = false;
+    rainbowFillStatus = false;
+
+    fillButton.className = "off";
+    rainbowButton.className = "off";
+    eraserButton.className = "off";
+    streamButton.className = "off";
+    shaderButton.className = "off";
+    lightenerButton.className = "off";
+    rainbowFillButton.className = "off";
+
+}
+
+// toggle status of mousedown so that the user can only draw while holding click
+let downStatus = false;
+function mouseDown () {
+    downStatus = true;
+}
+function mouseUp () {
+    downStatus = false;
 }
 
 
@@ -245,7 +267,6 @@ function drawRainbow () {
         
     } else if (rainbowStatus == true) {
         resetButtons()
-        backgroundColor = "black";
     }
 }
 
@@ -288,8 +309,10 @@ function erase () {
 }
 
 //open color palette and allow for color choice
-const colorPaletteButton = document.querySelector('#color-palette');
+const colorPaletteButton = document.querySelector('#colorPalette');
 colorPaletteButton.addEventListener('input', (e) => {
+    console.log(e.target)
+    console.log(e.target.value)
     backgroundColor = e.target.value;
 });
 
