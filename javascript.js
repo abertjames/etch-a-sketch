@@ -21,27 +21,16 @@ function genGrid (n) {
 
                 //get's the specific ID of the cell which was clicked over
                 let nodeID = e.path[0].id;
+                // console.log(e)
 
                 //redirects mousedown event to a handler depending on user settings
-                eventHandler(nodeID)
-
+                clickHandler(nodeID)
             });
             div.addEventListener("mouseup", mouseUp);
             div.addEventListener("mouseover", function (e) {
                 let nodeID  = e.path[0].id;
-
-                //only allows the user to paint while holding down click
-                //and optionally rainbow paint
-                if (downStatus == true && rainbowStatus == true) {
-                    randomColor()
-                    paint(nodeID,backgroundColor);
-                } else if (downStatus == true && eraserStatus == true){
-                    erase(nodeID)
-                }else if (downStatus == true) {
-                    paint(nodeID,backgroundColor);
-                } 
+                hoverHandler (nodeID);
             });
-
             rowContainer.appendChild(div);
         }
         gridContainer.appendChild(rowContainer);
@@ -49,10 +38,10 @@ function genGrid (n) {
 }
 
 
-////////////////////////////////////////////////// event handler ///////////////////////////////////////////////////////////
+////////////////////////////////////////////////// event handlers ///////////////////////////////////////////////////////////
 
-//this function checks the status of the user input settings and calls the appropriate function
-function eventHandler (nodeID) {
+//this function checks the status of the user input settings and calls the appropriate function on the click event
+function clickHandler (nodeID) {
     if (fillStatus == true) {
 
         //this check prevents fill being activated on an already colored cell
@@ -72,6 +61,26 @@ function eventHandler (nodeID) {
     } else if (eraserStatus == true) {
         mouseDown();
         erase(nodeID);
+    } else if (lightenerStatus == true) {
+        mouseDown()
+        lightener(nodeID)
+    }
+}
+
+//this function checks the status of the user input settings and calls the appropriate function on the hover event
+function hoverHandler (nodeID) {
+
+    //only allows the user to paint while holding down click
+    //and optionally rainbow paint or erase
+    if (downStatus == true && rainbowStatus == true) {
+        randomColor()
+        paint(nodeID,backgroundColor);
+    } else if (downStatus == true && eraserStatus == true){
+        erase(nodeID)
+    } else if (downStatus == true && lightenerStatus == true) {
+        lightener(nodeID)
+    } else if (downStatus == true) {
+        paint(nodeID,backgroundColor);
     }
 }
 
@@ -79,12 +88,12 @@ function eventHandler (nodeID) {
 
 let paintStatus = true;
 function paint (nodeID,backgroundColor) {
-    const div = document.getElementById(`${nodeID}`);
+    const div = document.getElementById(nodeID);
     div.style.backgroundColor = backgroundColor;  
 }
 
 function erase(nodeID) {
-    const div = document.getElementById(`${nodeID}`);
+    const div = document.getElementById(nodeID);
     div.style.backgroundColor = "";  
 }
 
@@ -94,6 +103,23 @@ function randomColor() {
     backgroundColor = `hsl(${randomNumber}, 100%, 50%)`;
     hslToHex(randomNumber);
     return backgroundColor;
+}
+
+//will incrementally lighten the color of a cell with each mouseover event 
+function lightener (nodeID) {
+    const div = document.getElementById(nodeID);
+    let start = div.style.backgroundColor.indexOf("(");
+    let end = div.style.backgroundColor.indexOf(")");
+    let rgbString = div.style.backgroundColor.slice(start+1,end).split(", ")
+    let rgbArray = [];
+    rgbString.forEach(element =>{
+        if ((parseInt(element)+25)<255) {
+            rgbArray.push(parseInt(element)+25)
+        } else if ((parseInt(element)+25)>=255){
+            rgbArray.push(255)
+        }
+    })
+    div.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
 }
 
 //conerts hsl to hex so that the color selection color will represent the current backgroundColor
@@ -107,11 +133,10 @@ function hslToHex(h) {
     colorPaletteButton.value = `#${f(0)}${f(8)}${f(4)}`;
 }
 
+//generates grid based on initial value of the slider defined in the HTML as 16
 let slider = document.getElementById("myRange");
 let output = document.getElementById("para");
 output.textContent = slider.value;
-
-//generates grid based on initial value of the slider defined in the HTML as 16
 let n = slider.value;
 genGrid(n)
 //the oninput function allows for continuous generation 
@@ -125,6 +150,7 @@ slider.oninput = () => {
 //open color palette and allow for color choice
 const colorPaletteButton = document.querySelector('#colorPalette');
 colorPaletteButton.addEventListener('input', (e) => {
+    resetButtons()
     backgroundColor = e.target.value;
 });
 
@@ -215,14 +241,14 @@ function fillCells(cellsToColor) {
 //////////////////////////////////////////////////////////// toggle management ///////////////////////////////////////////////////////
 
 //resets page back to initial conditions
-let backgroundColor = "black";
+let backgroundColor = "#000000";
 const resetButton = document.querySelector('#reset');
 resetButton.addEventListener("click", reset);
 resetButton.className = "off";
 function reset (){
 
     resetButtons()
-    backgroundColor = "black";
+    backgroundColor = "#000000";
     colorPaletteButton.value = "#000000";
     gridContainer.style.backgroundColor = "";
     n = 16;
@@ -354,14 +380,14 @@ function toggleInvert () {
 
         invertStatus = true;
         invertButton.className = "on";
-        backgroundColor = "white";
+        backgroundColor = "#FFFFFF";
         colorPaletteButton.value = "#FFFFFF";
-        gridContainer.style.backgroundColor = "black";
+        gridContainer.style.backgroundColor = "#000000";
     
     } else if (invertStatus == true) {
         invertStatus = false;
         invertButton.className = "off";
-        backgroundColor = "black";
+        backgroundColor = "#000000";
         colorPaletteButton.value = "#000000";
         gridContainer.style.backgroundColor = "";
     }
@@ -406,6 +432,7 @@ function toggleLighten () {
 }
 
 //fill status button toggle
+// handles the various cases of filling while inverted or in rainbow
 let fillStatus = false;
 const fillButton = document.querySelector('#fill-in');
 fillButton.addEventListener("click", toggleFill);
