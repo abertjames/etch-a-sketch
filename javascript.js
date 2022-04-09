@@ -1,3 +1,7 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////// grid generation //////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const gridContainer = document.querySelector("#gridContainer");
 
 function genGrid (n) {
@@ -17,7 +21,7 @@ function genGrid (n) {
             //generates a unique ID for the cell so it can be referenced specifically
             div.setAttribute('id', `${i}-${j}`);   
             div.classList.add('cell');
-            // div.classList.add('clear-fade');
+            // div.classList.add('fade');
 
             div.addEventListener("mousedown", function(e) {
 
@@ -84,7 +88,6 @@ function clickHandler (nodeID) {
 function hoverHandler (nodeID) {
 
     //only allows the user to paint while holding down click
-    //and optionally rainbow paint or erase
     if (downStatus == true && rainbowStatus == true) {
         randomColor()
         paint(nodeID,backgroundColor);
@@ -103,6 +106,7 @@ function hoverHandler (nodeID) {
         paint(nodeID,backgroundColor);
     }
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////// paint functions ///////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,18 +169,18 @@ function shader (nodeID) {
 function stream (nodeID,backgroundColor) {
     const div = document.getElementById(nodeID);
     div.style.backgroundColor = backgroundColor;
-    div.classList.add('clear-fade');
+    div.classList.add('fade');
 
-    setTimeout(() => {div.classList.remove('clear-fade')}, 700);
+    setTimeout(() => {div.classList.remove('fade')}, 700);
     setTimeout(() => {div.style.backgroundColor=""}, 700);
 }
 //makes colored rainbow cells disappear after a set period
 function rainbowStream (nodeID,backgroundColor) {
     const div = document.getElementById(nodeID);
     div.style.backgroundColor = backgroundColor;
-    div.classList.add('clear-fade');
+    div.classList.add('fade');
 
-    setTimeout(() => {div.classList.remove('clear-fade')}, 700);
+    setTimeout(() => {div.classList.remove('fade')}, 700);
     setTimeout(() => {div.style.backgroundColor=""}, 700);
 }
 
