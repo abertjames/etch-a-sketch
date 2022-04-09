@@ -18,7 +18,7 @@
 }
 
 .cell {
-    border: 1px solid grey;
+    border: thin solid grey;
     display: flex;
     flex: auto;
     background-color: transparent;

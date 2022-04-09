@@ -67,10 +67,16 @@ function clickHandler (nodeID) {
     } else if (shaderStatus == true){
         mouseDown();
         shader(nodeID);
+    } else if (streamStatus == true) {
+        mouseDown();
+        stream(nodeID, backgroundColor);
+    } else if (rainbowStreamStatus == true) {
+        mouseDown();
+        rainbowStream(nodeID,backgroundColor);
     }
 }
 
-//this function checks the status of the user input settings and calls the appropriate function on the hover event
+//checks the status of the user input settings and calls the appropriate function on the hover event
 function hoverHandler (nodeID) {
 
     //only allows the user to paint while holding down click
@@ -84,6 +90,11 @@ function hoverHandler (nodeID) {
         lightener(nodeID)
     } else if (downStatus == true && shaderStatus == true){
         shader(nodeID)
+    } else if (downStatus == true && streamStatus == true){
+        stream(nodeID,backgroundColor)
+    } else if (downStatus == true && rainbowStreamStatus == true){
+        randomColor();
+        rainbowStream(nodeID,backgroundColor);
     }else if (downStatus == true) {
         paint(nodeID,backgroundColor);
     }
@@ -94,7 +105,7 @@ function hoverHandler (nodeID) {
 let paintStatus = true;
 function paint (nodeID,backgroundColor) {
     const div = document.getElementById(nodeID);
-    div.style.backgroundColor = backgroundColor;  
+    div.style.backgroundColor = backgroundColor;
 }
 
 function erase(nodeID) {
@@ -127,6 +138,7 @@ function lightener (nodeID) {
     div.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
 }
 
+//will incrementally shade the color of a cell with each mouseover event 
 function shader (nodeID) {
     const div = document.getElementById(nodeID);
     let start = div.style.backgroundColor.indexOf("(");
@@ -141,6 +153,19 @@ function shader (nodeID) {
         }
     })
     div.style.backgroundColor = `rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`;
+}
+
+//makes colored cells disappear after a set period
+function stream (nodeID,backgroundColor) {
+    const div = document.getElementById(nodeID);
+    div.style.backgroundColor = backgroundColor;
+    setTimeout(() => {div.style.backgroundColor=""}, 500);
+}
+//makes colored rainbow cells disappear after a set period
+function rainbowStream (nodeID,backgroundColor) {
+    const div = document.getElementById(nodeID);
+    div.style.backgroundColor = backgroundColor;
+    setTimeout(() => {div.style.backgroundColor=""}, 500);
 }
 
 
@@ -293,7 +318,8 @@ function resetButtons () {
     lightenerStatus = false;
     rainbowFillStatus = false;
     invertStatus = false;
-
+    streamStatus = false;
+    rainbowStreamStatus = false;
 
     fillButton.className = "off";
     rainbowButton.className = "off";
@@ -303,6 +329,8 @@ function resetButtons () {
     lightenerButton.className = "off";
     rainbowFillButton.className = "off";
     invertButton.className = "off";
+    streamButton.className = "off";
+    rainbowStreamButton.className = "off";
 }
 
 // toggle status of mousedown so that the user can only draw while holding click
@@ -337,7 +365,7 @@ function toggleRainbow () {
 
 //rainbow fill toggle
 let rainbowFillStatus = false;
-const rainbowFillButton = document.querySelector('#rainbow-fill');
+const rainbowFillButton = document.querySelector('#rainbowFill');
 rainbowFillButton.addEventListener("click", toggleRainbowFill);
 rainbowFillButton.className = "off";
 function toggleRainbowFill () {
@@ -350,25 +378,6 @@ function toggleRainbowFill () {
         fillStatus = true;
         
     } else if (rainbowFillStatus == true) {
-        resetButtons()
-    }
-}
-
-//eraser toggle
-let eraserStatus = false;
-const eraserButton = document.querySelector('#eraser');
-eraserButton.addEventListener("click", toggleErase);
-eraserButton.className = "off";
-function toggleErase () {
-    if (eraserStatus == false){
-
-        resetButtons()
-
-        eraserStatus = true;
-        eraserButton.className = "on";
-        paintStatus = false;
-    
-    } else if (eraserStatus == true) {
         resetButtons()
     }
 }
@@ -388,6 +397,45 @@ function toggleStream () {
         paintStatus = false;
     
     } else if (streamStatus == true) {
+        resetButtons()
+    }
+}
+
+//rainbowStream toggle
+let rainbowStreamStatus = false;
+const rainbowStreamButton = document.querySelector('#rainbowStream');
+rainbowStreamButton.addEventListener("click", toggleRainbowStream);
+rainbowStreamButton.className = "off";
+function toggleRainbowStream () {
+    if (rainbowStreamStatus == false){
+
+        resetButtons()
+
+        rainbowStreamStatus = true;
+        rainbowStreamButton.className = "on";
+        paintStatus = false;
+        backgroundColor = randomColor();
+        
+    } else if (rainbowStreamStatus == true) {
+        resetButtons()
+    }
+}
+
+//eraser toggle
+let eraserStatus = false;
+const eraserButton = document.querySelector('#eraser');
+eraserButton.addEventListener("click", toggleErase);
+eraserButton.className = "off";
+function toggleErase () {
+    if (eraserStatus == false){
+
+        resetButtons()
+
+        eraserStatus = true;
+        eraserButton.className = "on";
+        paintStatus = false;
+    
+    } else if (eraserStatus == true) {
         resetButtons()
     }
 }
