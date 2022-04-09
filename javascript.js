@@ -17,6 +17,8 @@ function genGrid (n) {
             //generates a unique ID for the cell so it can be referenced specifically
             div.setAttribute('id', `${i}-${j}`);   
             div.classList.add('cell');
+            // div.classList.add('clear-fade');
+
             div.addEventListener("mousedown", function(e) {
 
                 //get's the specific ID of the cell which was clicked over
@@ -37,8 +39,10 @@ function genGrid (n) {
     }
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////// event handlers ///////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 //this function checks the status of the user input settings and calls the appropriate function on the click event
 function clickHandler (nodeID) {
@@ -99,8 +103,10 @@ function hoverHandler (nodeID) {
         paint(nodeID,backgroundColor);
     }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// paint functions ///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////// input /////////////////////////////////////////////////////////////////
 
 let paintStatus = true;
 function paint (nodeID,backgroundColor) {
@@ -159,13 +165,19 @@ function shader (nodeID) {
 function stream (nodeID,backgroundColor) {
     const div = document.getElementById(nodeID);
     div.style.backgroundColor = backgroundColor;
-    setTimeout(() => {div.style.backgroundColor=""}, 500);
+    div.classList.add('clear-fade');
+
+    setTimeout(() => {div.classList.remove('clear-fade')}, 700);
+    setTimeout(() => {div.style.backgroundColor=""}, 700);
 }
 //makes colored rainbow cells disappear after a set period
 function rainbowStream (nodeID,backgroundColor) {
     const div = document.getElementById(nodeID);
     div.style.backgroundColor = backgroundColor;
-    setTimeout(() => {div.style.backgroundColor=""}, 500);
+    div.classList.add('clear-fade');
+
+    setTimeout(() => {div.classList.remove('clear-fade')}, 700);
+    setTimeout(() => {div.style.backgroundColor=""}, 700);
 }
 
 
@@ -180,16 +192,20 @@ function hslToHex(h) {
     colorPaletteButton.value = `#${f(0)}${f(8)}${f(4)}`;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////// inputs ////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //generates grid based on initial value of the slider defined in the HTML as 16
 let slider = document.getElementById("myRange");
 let output = document.getElementById("para");
-output.textContent = slider.value;
+output.textContent = `${slider.value} x ${slider.value}`;
 let n = slider.value;
 genGrid(n)
 //the oninput function allows for continuous generation 
 //of the grid so you can see it update in real time
 slider.oninput = () => {
-    output.textContent = slider.value;
+    output.textContent = `${slider.value} x ${slider.value}`;
     n = slider.value;
     genGrid(n)
 }
@@ -201,7 +217,10 @@ colorPaletteButton.addEventListener('input', (e) => {
     backgroundColor = e.target.value;
 });
 
-//////////////////////////////////////////////////////////// fill function //////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////// fill function //////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 let proximalCells=[];
 let newCells = [];
@@ -285,7 +304,9 @@ function fillCells(cellsToColor) {
     });
 }
 
-//////////////////////////////////////////////////////////// toggle management ///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////// toggle management ////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //resets page back to initial conditions
 let backgroundColor = "#000000";
@@ -298,16 +319,20 @@ function reset (){
     backgroundColor = "#000000";
     colorPaletteButton.value = "#000000";
     gridContainer.style.backgroundColor = "";
+    
+    invertStatus = false;
+    invertButton.className = "off";
+
     n = 16;
     slider.value = n;
-    output.textContent = n;
+    output.textContent = `${slider.value} x ${slider.value}`;
     genGrid(n)
 }
 
 
 //resets buttons to starting conditions
 function resetButtons () {
-    
+
     paintStatus = true;
 
     fillStatus = false;
@@ -317,7 +342,7 @@ function resetButtons () {
     shaderStatus = false;
     lightenerStatus = false;
     rainbowFillStatus = false;
-    invertStatus = false;
+    // invertStatus = false;
     streamStatus = false;
     rainbowStreamStatus = false;
 
@@ -328,7 +353,7 @@ function resetButtons () {
     shaderButton.className = "off";
     lightenerButton.className = "off";
     rainbowFillButton.className = "off";
-    invertButton.className = "off";
+    // invertButton.className = "off";
     streamButton.className = "off";
     rainbowStreamButton.className = "off";
 }

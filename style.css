@@ -1,15 +1,32 @@
-#gridContainer {
+#page {
     display: flex;
-    width: 600px;
-    height: 600px;
     flex-direction: column;
-    border: 1px dotted red;
-    padding: 10px;
+    align-items: center;
 }
 
+#gridContainer {
+    display: flex;
+    width: 580px;
+    height: 580px;
+    flex-direction: column;
+    border: thin solid darkgrey;
+}
 .innerContainer {
     display: flex;
     flex: auto;
+}
+
+.slideContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: -10px;
+}
+
+.slider {
+    width: 580px;
+    margin-bottom: -10px;
 }
 
 .row {
@@ -17,11 +34,18 @@
     flex: auto;
 }
 
+#buttonContainer {
+    display: flex;
+    gap: 8px;
+}
+
 .cell {
     border: thin solid grey;
     display: flex;
     flex: auto;
     background-color: transparent;
+    -webkit-user-drag: none;
+
 }
 
 .on {
@@ -30,4 +54,9 @@
 
 .off {
     background-color: white;
+}
+
+.clear-fade {
+    background-color: transparent;
+    transition: background-color .25s linear; 
 }
